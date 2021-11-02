@@ -821,8 +821,11 @@ const toggleNetFilteringSwitch = function(ev) {
         state: !uDom('body').toggleClass('off').hasClass('off'),
         tabId: popupData.tabId,
     });
-    renderTooltips('#switch');
-    hashFromPopupData();
+    // Wait for animation to finish
+    setTimeout(function(){
+        renderTooltips('#switch');
+        hashFromPopupData();
+    }, 500);
 };
 
 /******************************************************************************/

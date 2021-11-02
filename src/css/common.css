@@ -25,6 +25,11 @@
     src: url('fonts/Metropolis/Metropolis-SemiBold.woff2') format('woff2');
 }
 
+@font-face {
+    font-family: 'Mulish';
+    src: local('Mulish'), url('fonts/Mulish-Regular.ttf') format('truetype');
+}
+
 /**
     Common uBO spacing.
     Ref: https://github.com/uBlockOrigin/uBlock-issues/issues/1005
@@ -45,7 +50,7 @@ body {
     box-sizing: border-box;
     color: var(--default-ink);
     fill: var(--default-ink);
-    font-family: Inter, sans-serif;
+    font-family: 'Mulish', sans-serif;
     font-size: var(--font-size);
     line-height: 1.5;
     margin: 0;
