@@ -571,8 +571,8 @@ const renderPopup = function() {
     }
 
     const canElementPicker = popupData.canElementPicker === true && isFiltering;
-    uDom.nodeFromId('gotoPick').classList.toggle('enabled', canElementPicker);
-    uDom.nodeFromId('gotoZap').classList.toggle('enabled', canElementPicker);
+    // uDom.nodeFromId('gotoPick').classList.toggle('enabled', canElementPicker);
+    // uDom.nodeFromId('gotoZap').classList.toggle('enabled', canElementPicker);
 
     let blocked, total;
     if ( popupData.pageCounts !== undefined ) {
@@ -808,6 +808,7 @@ const renderPopupLazy = (( ) => {
 
 const toggleNetFilteringSwitch = function(ev) {
     if ( !popupData || !popupData.pageURL ) { return; }
+    // console.log("Toggling", !uDom('body').toggleClass('off').hasClass('off'));
     messaging.send('popupPanel', {
         what: 'toggleNetFiltering',
         url: popupData.pageURL,
