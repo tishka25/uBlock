@@ -540,6 +540,10 @@ const updateHnSwitches = function() {
     );
 };
 
+const faviconFromDomain = function(domain) {
+    return `https://s2.googleusercontent.com/s2/favicons?domain=${domain}`;
+}
+
 /******************************************************************************/
 
 // Assume everything has to be done incrementally.
@@ -558,9 +562,10 @@ const renderPopup = function() {
 
     // The hostname information below the power switch
     {
-        const [ elemHn, elemDn ] = uDom.nodeFromId('hostname').children;
+        const [ imgEl, elemHn, elemDn ] = uDom.nodeFromId('hostname').children;
         const { pageDomain, pageHostname } = popupData;
         if ( pageDomain !== '' ) {
+            imgEl.src = faviconFromDomain(pageDomain);
             elemDn.textContent = safePunycodeToUnicode(pageDomain);
             elemHn.textContent = pageHostname !== pageDomain
                 ? safePunycodeToUnicode(pageHostname.slice(0, -pageDomain.length - 1)) + '.'
