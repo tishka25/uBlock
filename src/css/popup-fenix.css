@@ -99,9 +99,13 @@ hr {
     left: 0;
     right: 0;
     bottom: 0;
+    background-color: #2196F3;
+    -webkit-transition: transform .4s;
+    transition: transform .4s;
+  }
+
+  body.off .slider {
     background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
   }
   
   .slider:before {
@@ -115,19 +119,21 @@ hr {
     -webkit-transition: .4s;
     transition: .4s;
   }
-  
-  body.off .slider {
-    background-color: #2196F3;
+
+  .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
   }
-  
-    .slider:focus {
+
+  .slider:focus {
     box-shadow: 0 0 1px #2196F3;
   }
   
   body.off .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(0px);
+    -ms-transform: translateX(0px);
+    transform: translateX(0px);
   }
   
   /* Rounded sliders */
@@ -150,6 +156,9 @@ hr {
     width: 60px;
     height: 34px;
     }
+body.needReload #switch {
+    visibility: hidden;
+}
 body.off #switch {
     fill: var(--default-surface);
     stroke: var(--checkbox-ink);
