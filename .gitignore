@@ -2,3 +2,5 @@
 *.pem
 /dist/build/
 /tmp/
+
+.DS_Store
