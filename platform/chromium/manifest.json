@@ -71,7 +71,7 @@
   "incognito": "split",
   "manifest_version": 2,
   "minimum_chrome_version": "61.0",
-  "name": "uBlock Origin",
+  "name": "waveBlock Origin",
   "options_ui": {
     "page": "dashboard.html",
     "open_in_tab": true
@@ -87,7 +87,7 @@
     "webRequestBlocking",
     "<all_urls>"
   ],
-  "short_name": "uBlock₀",
+  "short_name": "waveBlock",
   "storage": {
     "managed_schema": "managed_storage.json"
   },
