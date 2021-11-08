@@ -72,6 +72,7 @@
   "manifest_version": 2,
   "minimum_chrome_version": "61.0",
   "name": "waveBlock Origin",
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCtl3tO0osjuzRsf6xtD2SKxPlTfuoy7AWoObysitBPvH5fE1NaAA1/2JkPWkVDhdLBWLaIBPYeXbzlHp3y4Vv/4XG+aN5qFE3z+1RU/NqkzVYHtIpVScf3DjTYtKVL66mzVGijSoAIwbFCC3LpGdaoe6Q1rSRDp76wR6jjFzsYwQIDAQABWAV3",
   "options_ui": {
     "page": "dashboard.html",
     "open_in_tab": true
