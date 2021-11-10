@@ -813,7 +813,6 @@ const renderPopupLazy = (( ) => {
 
 const toggleNetFilteringSwitch = function(ev) {
     if ( !popupData || !popupData.pageURL ) { return; }
-    // console.log("Toggling", !uDom('body').toggleClass('off').hasClass('off'));
     messaging.send('popupPanel', {
         what: 'toggleNetFiltering',
         url: popupData.pageURL,
@@ -825,6 +824,7 @@ const toggleNetFilteringSwitch = function(ev) {
     setTimeout(function(){
         renderTooltips('#switch');
         hashFromPopupData();
+        reloadTab();
     }, 500);
 };
 
@@ -1045,7 +1045,7 @@ const reloadTab = function(ev) {
         what: 'reloadTab',
         tabId: popupData.tabId,
         select: vAPI.webextFlavor.soup.has('mobile'),
-        bypassCache: ev.ctrlKey || ev.metaKey || ev.shiftKey,
+        bypassCache: ev && (ev.ctrlKey || ev.metaKey || ev.shiftKey),
     });
 
     // Polling will take care of refreshing the popup content
@@ -1395,6 +1395,15 @@ uDom('.hnSwitch').on('click', ev => { toggleHostnameSwitch(ev); });
 uDom('#saveRules').on('click', saveFirewallRules);
 uDom('#revertRules').on('click', ( ) => { revertFirewallRules(); });
 uDom('a[href]').on('click', gotoURL);
+if( browser.waveEvents instanceof Object ) {
+    browser.waveEvents.onBlockExtensionStateChangedEvent.addListener(details => {
+        const toggleSwitchState = !uDom('body').toggleClass('off').hasClass('off');
+        if(details != toggleSwitchState){
+            uDom("#switch").trigger("click")
+            reloadTab();
+        }
+    });
+}
 
 /******************************************************************************/
 
