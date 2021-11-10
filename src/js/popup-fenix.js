@@ -1399,7 +1399,7 @@ if( browser.waveEvents instanceof Object ) {
     browser.waveEvents.onBlockExtensionStateChangedEvent.addListener(details => {
         const toggleSwitchState = !uDom('body').toggleClass('off').hasClass('off');
         if(details != toggleSwitchState){
-            uDom("#switch").trigger("click")
+            uDom("#switch").trigger("click");
             reloadTab();
         }
     });
