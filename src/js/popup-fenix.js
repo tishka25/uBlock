@@ -830,6 +830,16 @@ const toggleNetFilteringSwitch = function(ev) {
 
 /******************************************************************************/
 
+const toggleFilteringFromBrowser = function(details) {
+    const toggleSwitchState = !uDom('body').hasClass('off');
+    if(details != toggleSwitchState){
+        uDom("#switch").trigger("click");
+        reloadTab();
+    }
+}
+
+/******************************************************************************/
+
 const gotoZap = function() {
     messaging.send('popupPanel', {
         what: 'launchElementPicker',
@@ -1396,13 +1406,7 @@ uDom('#saveRules').on('click', saveFirewallRules);
 uDom('#revertRules').on('click', ( ) => { revertFirewallRules(); });
 uDom('a[href]').on('click', gotoURL);
 if( browser.waveEvents instanceof Object ) {
-    browser.waveEvents.onBlockExtensionStateChangedEvent.addListener(details => {
-        const toggleSwitchState = !uDom('body').toggleClass('off').hasClass('off');
-        if(details != toggleSwitchState){
-            uDom("#switch").trigger("click");
-            reloadTab();
-        }
-    });
+    browser.waveEvents.onBlockExtensionStateChangedEvent.addListener(toggleFilteringFromBrowser);
 }
 
 /******************************************************************************/
