@@ -86,6 +86,7 @@
     "webNavigation",
     "webRequest",
     "webRequestBlocking",
+    "waveEvents",
     "<all_urls>"
   ],
   "short_name": "waveBlock",

@@ -1405,9 +1405,6 @@ uDom('.hnSwitch').on('click', ev => { toggleHostnameSwitch(ev); });
 uDom('#saveRules').on('click', saveFirewallRules);
 uDom('#revertRules').on('click', ( ) => { revertFirewallRules(); });
 uDom('a[href]').on('click', gotoURL);
-if( browser.waveEvents instanceof Object ) {
-    browser.waveEvents.onBlockExtensionStateChangedEvent.addListener(toggleFilteringFromBrowser);
-}
 
 /******************************************************************************/
 

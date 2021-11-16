@@ -871,6 +871,7 @@ housekeep itself.
 /******************************************************************************/
 /******************************************************************************/
 
+var registeredBlockStatusEvent = null;
 vAPI.Tabs = class extends vAPI.Tabs {
     onActivated(details) {
         const { tabId } = details;
@@ -884,6 +885,8 @@ vAPI.Tabs = class extends vAPI.Tabs {
         super.onActivated(details);
         // https://github.com/uBlockOrigin/uBlock-issues/issues/680
         µb.updateToolbarIcon(tabId);
+        µb.updateBrowserState(tabId);
+        µb.handleRegisterBlockStatusChangeEvent(tabId);
         contextMenu.update(tabId);
     }
 
@@ -891,6 +894,7 @@ vAPI.Tabs = class extends vAPI.Tabs {
         super.onClosed(tabId);
         if ( vAPI.isBehindTheSceneTabId(tabId) ) { return; }
         µb.unbindTabFromPageStore(tabId);
+        // µb.handleRegisterBlockStatusChangeEvent(tabId, false);
         contextMenu.update();
     }
 
@@ -938,9 +942,11 @@ vAPI.Tabs = class extends vAPI.Tabs {
         const tab = await vAPI.tabs.get(tabId);
         if ( tab === null ) { return; }
         const { id, url = '' } = tab;
+        // µb.handleRegisterBlockStatusChangeEvent(tabId);
         if ( url === '' ) { return; }
         µb.tabContextManager.commit(id, url);
         µb.bindTabToPageStore(id, 'tabUpdated', tab);
+        µb.updateBrowserState(id);
         contextMenu.update(id);
     }
 
@@ -953,12 +959,49 @@ vAPI.Tabs = class extends vAPI.Tabs {
         if ( !changeInfo.url ) { return; }
         µb.tabContextManager.commit(tabId, changeInfo.url);
         µb.bindTabToPageStore(tabId, 'tabUpdated', tab);
+        µb.updateBrowserState(tabId);
     }
 };
 
 vAPI.tabs = new vAPI.Tabs();
 
 /******************************************************************************/
+/******************************************************************************/
+
+/******************************************************************************/
+
+µb.updateBrowserState = function(tabId) {
+    const pageStore = µb.pageStoreFromTabId(tabId);
+    if( pageStore != null ){
+        const state = pageStore.getNetFilteringSwitch() ? 1 : 0;
+        if ( browser.waveEvents instanceof Object ) {
+            browser.waveEvents.doBlock({ state: state });
+        }
+    }
+}
+
+µb.onUpdateBlockStatus = async function(tabId, state) {
+    const tab = await vAPI.tabs.get(tabId);
+    if ( tab === null ) { return; }
+    const { id, url = '' } = tab;
+    µb.toggleNetFilteringSwitch(url, "", state == 1 ? true : false);
+    µb.updateToolbarIcon(tabId);
+    µb.updateBrowserState(tabId);
+    vAPI.tabs.reload(tabId, false);
+}
+
+µb.handleRegisterBlockStatusChangeEvent = function(tabId){
+    if( browser.waveEvents instanceof Object ) {
+        if(registeredBlockStatusEvent != null){
+            // Remove old event listener
+            browser.waveEvents.onBlockExtensionStateChangedEvent.removeListener(registeredBlockStatusEvent);
+        }
+        const handleEvent = (details) => µb.onUpdateBlockStatus(tabId, details);
+        browser.waveEvents.onBlockExtensionStateChangedEvent.addListener(handleEvent);
+        registeredBlockStatusEvent = handleEvent;
+    }
+}
+
 /******************************************************************************/
 
 // Create an entry for the tab if it doesn't exist.
