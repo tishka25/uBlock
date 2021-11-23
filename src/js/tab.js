@@ -946,7 +946,7 @@ vAPI.Tabs = class extends vAPI.Tabs {
         if ( url === '' ) { return; }
         µb.tabContextManager.commit(id, url);
         µb.bindTabToPageStore(id, 'tabUpdated', tab);
-        µb.updateBrowserState(id);
+        await µb.updateBrowserState(id);
         contextMenu.update(id);
     }
 
@@ -970,10 +970,14 @@ vAPI.tabs = new vAPI.Tabs();
 
 /******************************************************************************/
 
-µb.updateBrowserState = function(tabId) {
+µb.updateBrowserState = async function(tabId) {
+    const tab = await vAPI.tabs.get(tabId);
+    if ( tab === null ) { return; }
+    const { id, url = '' } = tab;
     const pageStore = µb.pageStoreFromTabId(tabId);
     if( pageStore != null ){
-        const state = pageStore.getNetFilteringSwitch() ? 1 : 0;
+        const state = pageStore.getNetFilteringSwitch(url) ? 1 : 0;
+        console.log("Update browser state", url, state);
         if ( browser.waveEvents instanceof Object ) {
             browser.waveEvents.doBlock({ state: state });
         }
@@ -986,7 +990,7 @@ vAPI.tabs = new vAPI.Tabs();
     const { id, url = '' } = tab;
     µb.toggleNetFilteringSwitch(url, "", state == 1 ? true : false);
     µb.updateToolbarIcon(tabId);
-    µb.updateBrowserState(tabId);
+    await µb.updateBrowserState(tabId);
     vAPI.tabs.reload(tabId, false);
 }
 
