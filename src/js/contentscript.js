@@ -1274,6 +1274,24 @@ vAPI.DOMFilterer = class {
         vAPI.shutdown.add(function() {
             document.removeEventListener('mousedown', onMouseClick, true);
         });
+
+        // Inject total blocked ads in a page that supports it
+        const totalBlockedAdsPlaceholderId = 'total-blocked-ads-10ce98f6-53f1-4d2c-b9de-4cda37d9e6cd'
+        const totalBlockedAdsPlaceholder = document.getElementById(totalBlockedAdsPlaceholderId);
+        if( totalBlockedAdsPlaceholder instanceof Object ) {
+          function updateTotalBlockedAds() {
+            vAPI.messaging.send('popupPanel', {
+              what: 'getPopupData',
+              url: vAPI.effectiveSelf.location.href,
+            }).then(response => {
+              // console.log('Popup panel from UBO:', response);
+              // Inject total blocked value into DOM
+              totalBlockedAdsPlaceholder.innerText = response.globalBlockedRequestCount;
+            });
+          }
+          updateTotalBlockedAds();
+          window.addEventListener('focus', updateTotalBlockedAds);
+        }
     };
 
     // https://github.com/uBlockOrigin/uBlock-issues/issues/403
