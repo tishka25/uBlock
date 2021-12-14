@@ -8,6 +8,30 @@ body {
     /* margin: 0 0; */
 }
 
+@media (prefers-color-scheme: light) {
+  :root {
+    --background-color: #fff;
+    --header-color: linear-gradient(90deg, #E5F5FF 0%, #F0F0F0 98.89%);
+    --text-color: #626365;
+    --header-icon-filter: none;
+    --button-background: linear-gradient(0deg, #F1F3F4, #F1F3F4), linear-gradient(0deg, #FCFCFC, #FCFCFC), linear-gradient(0deg, #FCFCFC, #FCFCFC), linear-gradient(0deg, #FCFCFC, #FCFCFC), #FCFCFC;
+    --button-border: 0.661479px solid #CFD9E7;
+    --button-icon-background: none;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #494949;
+    --header-color: #000;
+    --text-color: #fff;
+    --header-icon-filter: invert();
+    --button-background: #000;
+    --button-border: 0.661479px solid rgb(26, 26, 26);
+    --button-icon-background: rgb(80, 80, 80);
+  }
+}
+
 /* Internal CSS values */
 :root body {
     overflow: hidden;
@@ -49,6 +73,7 @@ a {
     min-width: var(--popup-main-min-width);
     display: flex;
     flex-direction: column;
+    background-color: var(--background-color);
     }
 :root.portrait #main {
     align-self: inherit;
@@ -90,11 +115,12 @@ hr {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #0078D4;
-    background: linear-gradient(90deg, #E5F5FF 0%, #F0F0F0 98.89%);
+    background: var(--header-color);
     margin: 0 0 !important;
 }
 .header-title {
     margin-left: 20px;
+    color: var(--text-color);
 }
 
   /* Hide default HTML checkbox */
@@ -227,7 +253,7 @@ body.needSave #revertRules {
     font-weight: bold;
     font-size: 14px;
     line-height: 18px;
-    color: #000000;
+    color: var(--text-color);
     }
 #hostname > span + span {
     font-weight: 600;
@@ -748,9 +774,9 @@ body:not([data-more~="e"]) [data-more="e"] {
 :root.desktop body {
     --popup-gap: calc(var(--font-size) * 0.875);
     }
-:root.desktop #switch:hover {
+/* :root.desktop #switch:hover {
     background-color: var(--default-surface-hover);
-    }
+    } */
 :root.desktop .rulesetTools [id]:hover {
     fill: var(--default-ink);
     }
